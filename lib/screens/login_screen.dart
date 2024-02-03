@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled3/screens/home/home_screen.dart';
 
 import '../constants.dart';
 
@@ -11,9 +13,7 @@ class login_screen extends StatefulWidget {
 
 class _login_screenState extends State<login_screen> {
   TextEditingController username = TextEditingController();
-
   TextEditingController password = TextEditingController();
-
   bool? isChecked = false;
 
   @override
@@ -81,8 +81,6 @@ class _login_screenState extends State<login_screen> {
                           Text('Remember me'),
                         ],
                       ),
-
-
                       TextButton(
                           onPressed: () {}, child: Text('Forget Password')),
                     ],
@@ -96,7 +94,26 @@ class _login_screenState extends State<login_screen> {
                     minWidth: ScrernWidth,
                     height: 55,
                     color: kSecondaryColor,
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (username.text.isEmpty || password.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Please Fill the all the feilds'),
+                        ));
+                        return;
+                      }
+                      try {
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: username.text, password: password.text);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()));
+                      } catch (e) {
+                        print('Login failed: $e');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Login failed: $e")));
+                      }
+                    },
                     child: Text(
                       "Sign in",
                       style: TextStyle(
@@ -104,7 +121,53 @@ class _login_screenState extends State<login_screen> {
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
                     ),
+                  ),                  SizedBox(
+                    height: ScrernHeight / 50,
                   ),
+                  Text('Or login with'),
+                  SizedBox(
+                    height: ScrernHeight / 50,
+                  ),
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    minWidth: ScrernWidth,
+                    height: 55,
+                    color: Colors.white,
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.network(
+                          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAzFBMVEVHcEz////////+/v77+/vx8fL9/f309fX+/v739/f////09PXOz8/5+vr8/P3////////29vf///////84qlf8wAdGiPX8/PzsUUTqQjQsqFLrSj3S3/w6g/TqPCs0gPQgpUf85+bv9P+63sL62Nb+8ef4ycbw+PJkunkeePP81HXwgGv0jhzc5/3o9efX7N5Fr19Uj/WQy562zPr2trL94KDzoJrzoJv80Gjyl5H94qgyh9v7xzihsSp+wYV1sE5ZtXBmmvUynoWKrvzKDGT6AAAAE3RSTlMAW+TTeBLcHLMt1WsKzfUznkBIxSDAuAAAAUZJREFUKJFtktligkAMRUFZxKVuDMOAggpu1apVu+/t//9TkxBU1PsySQ4hlyGadpTd0fWOrV2R3eqyWhe80j1RpYCc7pmcI2tyaZimQw6bOTMplU9hpKIofJSUmgwtTCYq9EFhqKIJ5lbGdGIRAGhUQLNX6wRLOA2Y8vdpuvfVOJtaOjhdhL56yYrjU8cGFsRSLc4/x+DPfxBiSZN6LMlXUYXzVghBT8/7pPkdxFX28yzEO8HYI8U9dlQudMZx3AeInWWe+SrExxrhCLTre3E+M3P7FXznLn887z53a2PwGbjBLLvUP2jcYUC/FYdOA9d1g22SbN1fbizT9bUxXA+QguB4G2GlfbIFqw1i0GCzKmzDDQ1LZgPQLKHk5rAJpmSj0ykH0jxArW4V79yqF1bMkEckjYvFrTWIy0btApFsx7m68Ff1D4OdMHbngtKsAAAAAElFTkSuQmCC",
+                          fit: BoxFit.scaleDown,
+                        ),
+                        Text("Google"),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: ScrernHeight / 50,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Don’t have an account?'),
+                      TextButton(
+                          onPressed: () {},
+                          child: Text(
+                              'Sign Up now',
+                            style: TextStyle(
+                              color: kSecondaryColor,
+                              fontWeight: FontWeight.w600
+                            ),
+                          )
+                      ),
+
+                    ],
+                  )
                 ],
               ),
             ),
