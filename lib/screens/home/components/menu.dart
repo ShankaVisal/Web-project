@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled3/screens/login_screen.dart';
 
 import '../../../constants.dart';
 
@@ -13,6 +14,13 @@ class HeaderWebMenu extends StatelessWidget {
       children: [
         HeaderMenu(
           press: () {},
+          title: "Home",
+        ),
+        SizedBox(
+          width: kPadding,
+        ),
+        HeaderMenu(
+          press: () {},
           title: "Menu",
         ),
         SizedBox(
@@ -20,7 +28,16 @@ class HeaderWebMenu extends StatelessWidget {
         ),
         HeaderMenu(
           press: () {},
-          title: "For Riders",
+          title: "Offers",
+        ),
+        SizedBox(
+          width: kPadding,
+        ),
+        HeaderMenu(
+          press: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+          },
+          title: "Login",
         ),
         SizedBox(
           width: kPadding,
@@ -28,20 +45,6 @@ class HeaderWebMenu extends StatelessWidget {
         HeaderMenu(
           press: () {},
           title: "About",
-        ),
-        SizedBox(
-          width: kPadding,
-        ),
-        HeaderMenu(
-          press: () {},
-          title: "Reviews",
-        ),
-        SizedBox(
-          width: kPadding,
-        ),
-        HeaderMenu(
-          press: () {},
-          title: "Restaurants",
         ),
       ],
     );
@@ -59,14 +62,30 @@ class MobFooterMenu extends StatelessWidget {
       children: [
         HeaderMenu(
           press: () {},
-          title: "Menu",
+          title: "Home",
         ),
         SizedBox(
           width: kPadding,
         ),
         HeaderMenu(
           press: () {},
-          title: "For Riders",
+          title: "Meanu",
+        ),
+        SizedBox(
+          width: kPadding,
+        ),
+        HeaderMenu(
+          press: () {},
+          title: "Offers",
+        ),
+        SizedBox(
+          width: kPadding,
+        ),
+        HeaderMenu(
+          press: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+          },
+          title: "Login",
         ),
         SizedBox(
           width: kPadding,
@@ -74,20 +93,6 @@ class MobFooterMenu extends StatelessWidget {
         HeaderMenu(
           press: () {},
           title: "About",
-        ),
-        SizedBox(
-          width: kPadding,
-        ),
-        HeaderMenu(
-          press: () {},
-          title: "Reviews",
-        ),
-        SizedBox(
-          width: kPadding,
-        ),
-        HeaderMenu(
-          press: () {},
-          title: "Restaurants",
         ),
       ],
     );
@@ -128,42 +133,46 @@ class _MobMenuState extends State<MobMenu> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          HeaderMenu(
-            press: () {},
-            title: "Menu",
-          ),
-          SizedBox(
-            height: kPadding,
-          ),
-          HeaderMenu(
-            press: () {},
-            title: "For Riders",
-          ),
-          SizedBox(
-            height: kPadding,
-          ),
-          HeaderMenu(
-            press: () {},
-            title: "About",
-          ),
-          SizedBox(
-            height: kPadding,
-          ),
-          HeaderMenu(
-            press: () {},
-            title: "Reviews",
-          ),
-          SizedBox(
-            height: kPadding,
-          ),
-          HeaderMenu(
-            press: () {},
-            title: "Restaurants",
-          ),
-        ],
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            HeaderMenu(
+              press: () {},
+              title: "Home",
+            ),
+            SizedBox(
+              height: kPadding,
+            ),
+            HeaderMenu(
+              press: () {},
+              title: "Menu",
+            ),
+            SizedBox(
+              height: kPadding,
+            ),
+            HeaderMenu(
+              press: () {},
+              title: "Offers",
+            ),
+            SizedBox(
+              height: kPadding,
+            ),
+            HeaderMenu(
+              press: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+              },
+              title: "Login",
+            ),
+            SizedBox(
+              height: kPadding,
+            ),
+            HeaderMenu(
+              press: () {},
+              title: "About",
+            ),
+          ],
+        ),
       ),
     );
   }
