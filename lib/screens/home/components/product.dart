@@ -20,7 +20,6 @@ class Products extends StatelessWidget {
       child: InkWell(
         onTap: press,
         child: Material(
-          elevation: 5,
           borderRadius: BorderRadius.circular(15),
           child: Container(
             padding: EdgeInsets.all(5.0),

@@ -46,7 +46,7 @@ class Services extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(kPadding),
       child: Material(
-        elevation: 5,
+
         borderRadius: BorderRadius.circular(8.0),
         child: Container(
           padding: EdgeInsets.all(kPadding / 2),
