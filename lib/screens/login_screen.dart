@@ -108,6 +108,9 @@ class _login_screenState extends State<login_screen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => HomeScreen()));
+                        setState(() {
+                          MyGlobals().log_account = true;
+                        });
                       } catch (e) {
                         print('Login failed: $e');
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -177,3 +180,18 @@ class _login_screenState extends State<login_screen> {
     );
   }
 }
+class MyGlobals {
+  // Declare your public variable here
+  bool log_account = false;
+
+  // Singleton pattern
+  static final MyGlobals _singleton = MyGlobals._internal();
+
+  factory MyGlobals() {
+    return _singleton;
+  }
+
+  MyGlobals._internal();
+}
+
+

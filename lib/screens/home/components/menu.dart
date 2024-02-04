@@ -1,15 +1,35 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled3/screens/about_screen.dart';
+import 'package:untitled3/screens/home/home_screen.dart';
 import 'package:untitled3/screens/login_screen.dart';
 
 import '../../../constants.dart';
 
-class HeaderWebMenu extends StatelessWidget {
+class HeaderWebMenu extends StatefulWidget {
   const HeaderWebMenu({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<HeaderWebMenu> createState() => _HeaderWebMenuState();
+}
+
+class _HeaderWebMenuState extends State<HeaderWebMenu> {
+  @override
   Widget build(BuildContext context) {
+    bool currentAccountState = MyGlobals().log_account;
+    String account_log = '';
+    if(currentAccountState == false){
+      account_log = 'Login';
+    }else{
+      account_log = 'Log out';
+    }
+    Future<void> _signOut() async {
+      await FirebaseAuth.instance.signOut();
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+      // You can use Navigator.pushReplacement or other navigation methods.
+    }
     return Row(
       children: [
         HeaderMenu(
@@ -35,15 +55,29 @@ class HeaderWebMenu extends StatelessWidget {
         ),
         HeaderMenu(
           press: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+            if(currentAccountState == false){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+            } else {
+              _signOut();
+              try{
+                MyGlobals().log_account = false;
+              }catch(e){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("$e"))
+                );
+              }
+            }
+
           },
-          title: "Login",
+          title: account_log,
         ),
         SizedBox(
           width: kPadding,
         ),
         HeaderMenu(
-          press: () {},
+          press: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>about_screen()));
+          },
           title: "About",
         ),
       ],
@@ -58,6 +92,18 @@ class MobFooterMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool currentAccountState = MyGlobals().log_account;
+    String account_log = '';
+    if(currentAccountState == false){
+      account_log = 'Login';
+    }else{
+      account_log = 'Log out';
+    }
+    Future<void> _signOut() async {
+      await FirebaseAuth.instance.signOut();
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+      // You can use Navigator.pushReplacement or other navigation methods.
+    }
     return Wrap(
       children: [
         HeaderMenu(
@@ -69,7 +115,7 @@ class MobFooterMenu extends StatelessWidget {
         ),
         HeaderMenu(
           press: () {},
-          title: "Meanu",
+          title: "Menu",
         ),
         SizedBox(
           width: kPadding,
@@ -83,15 +129,29 @@ class MobFooterMenu extends StatelessWidget {
         ),
         HeaderMenu(
           press: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+            if(currentAccountState == false){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+            } else {
+              _signOut();
+              try{
+                MyGlobals().log_account = false;
+              }catch(e){
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("$e"))
+                );
+              }
+            }
+
           },
-          title: "Login",
+          title: account_log,
         ),
         SizedBox(
           width: kPadding,
         ),
         HeaderMenu(
-          press: () {},
+          press: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>about_screen()));
+          },
           title: "About",
         ),
       ],
@@ -131,6 +191,18 @@ class MobMenu extends StatefulWidget {
 class _MobMenuState extends State<MobMenu> {
   @override
   Widget build(BuildContext context) {
+    bool currentAccountState = MyGlobals().log_account;
+    String account_log = '';
+    if(currentAccountState == false){
+      account_log = 'Login';
+    }else{
+      account_log = 'Log out';
+    }
+    Future<void> _signOut() async {
+      await FirebaseAuth.instance.signOut();
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+      // You can use Navigator.pushReplacement or other navigation methods.
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Center(
@@ -142,33 +214,47 @@ class _MobMenuState extends State<MobMenu> {
               title: "Home",
             ),
             SizedBox(
-              height: kPadding,
+              width: kPadding,
             ),
             HeaderMenu(
               press: () {},
               title: "Menu",
             ),
             SizedBox(
-              height: kPadding,
+              width: kPadding,
             ),
             HeaderMenu(
               press: () {},
               title: "Offers",
             ),
             SizedBox(
-              height: kPadding,
+              width: kPadding,
             ),
             HeaderMenu(
               press: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+                if(currentAccountState == false){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+                } else {
+                  _signOut();
+                  try{
+                    MyGlobals().log_account = false;
+                  }catch(e){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("$e"))
+                    );
+                  }
+                }
+
               },
-              title: "Login",
+              title: account_log,
             ),
             SizedBox(
-              height: kPadding,
+              width: kPadding,
             ),
             HeaderMenu(
-              press: () {},
+              press: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>about_screen()));
+              },
               title: "About",
             ),
           ],
