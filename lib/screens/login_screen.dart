@@ -9,6 +9,7 @@ class login_screen extends StatefulWidget {
   State<login_screen> createState() => _login_screenState();
 }
 
+// ignore: camel_case_types
 class _login_screenState extends State<login_screen> {
   TextEditingController username = TextEditingController();
 
@@ -40,7 +41,7 @@ class _login_screenState extends State<login_screen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Sign in to Foodie',
                     style: TextStyle(
                       fontSize: 32,
@@ -49,14 +50,14 @@ class _login_screenState extends State<login_screen> {
                   ),
                   TextField(
                     controller: username,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'User Name',
                       labelText: 'User Name',
                     ),
                   ),
                   TextField(
                     controller: password,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Password',
                       labelText: 'Password',
                     ),
@@ -78,13 +79,12 @@ class _login_screenState extends State<login_screen> {
                               });
                             },
                           ),
-                          Text('Remember me'),
+                          const Text('Remember me'),
                         ],
                       ),
-
-
                       TextButton(
-                          onPressed: () {}, child: Text('Forget Password')),
+                          onPressed: () {},
+                          child: const Text('Forget Password')),
                     ],
                   ),
                   SizedBox(
@@ -97,7 +97,7 @@ class _login_screenState extends State<login_screen> {
                     height: 55,
                     color: kSecondaryColor,
                     onPressed: () {},
-                    child: Text(
+                    child: const Text(
                       "Sign in",
                       style: TextStyle(
                           color: Colors.white,
