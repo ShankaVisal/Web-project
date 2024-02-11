@@ -129,7 +129,8 @@ class AboutSection extends StatelessWidget {
           children: [
             Expanded(
               child: MaterialButton(
-                height: 55,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                height: 60,
                 color: kSecondaryColor,
                 onPressed: () {},
                 child: Text(
@@ -152,19 +153,23 @@ class AboutSection extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Container(
-                height: 50,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Pick Up",
-                    style: TextStyle(
-                        color: kSecondaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
+              child: MaterialButton(
+                height: 60,
+                onPressed: () {
+                  // Your action when the button is pressed
+                },
+                // color: Colors.white, // Set to transparent to have an outlined appearance
+                textColor: kSecondaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0), // Adjust the radius as needed
+                  side: BorderSide(color: kSecondaryColor),
+                ),
+                child: Text(
+                  "Pick Up",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
-                  style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: kSecondaryColor)),
                 ),
               ),
             )

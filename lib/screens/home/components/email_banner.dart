@@ -55,7 +55,7 @@ class EmailBanner extends StatelessWidget {
                           decoration: InputDecoration(
                               hintText: "Enter your email here",
                               hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 14),
+                                  fontWeight: FontWeight.w100, fontSize: 14),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide.none),
                               enabledBorder: UnderlineInputBorder(
