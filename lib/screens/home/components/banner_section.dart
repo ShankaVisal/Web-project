@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../../constants.dart';
 
@@ -23,7 +24,7 @@ class BannerSection extends StatelessWidget {
           flex: 2,
           child: Column(
             children: [
-              Image.asset("assets/images/banner.png"),
+              Image.asset("assets/images/banner.png").animate().fade().scale(),
             ],
           ),
         )
@@ -50,7 +51,7 @@ class _MobBannerState extends State<MobBanner> {
               "assets/images/banner.png",
               height: 250,
               width: 250,
-            ),
+            ).animate().fade().scale(),
           ],
         ),
         SizedBox(
@@ -78,7 +79,7 @@ class AboutSection extends StatelessWidget {
           "Eat today",
           maxLines: 1,
           style: TextStyle(fontSize: 56, fontWeight: FontWeight.bold),
-        ),
+        ).animate().fadeIn(duration: 600.ms), // baseline=800ms
         SizedBox(
           height: 10,
         ),
@@ -88,7 +89,7 @@ class AboutSection extends StatelessWidget {
           style: TextStyle(
             fontSize: 56,
           ),
-        ),
+        ).animate().fadeIn(duration: 900.ms),
         SizedBox(
           height: 10,
         ),

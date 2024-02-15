@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled3/screens/home/home_screen.dart';
 
-import '../constants.dart';
+import '../../constants.dart';
 
 class login_screen extends StatefulWidget {
   login_screen({super.key});
@@ -15,6 +16,33 @@ class _login_screenState extends State<login_screen> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
   bool? isChecked = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadSavedCredentials();
+  }
+
+  void loadSavedCredentials() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isChecked = prefs.getBool('rememberMe') ?? false;
+      if(isChecked!){
+        username.text = prefs.getString('username') ?? '';
+        password.text = prefs.getString('password') ?? '';
+      }
+    });
+  }
+
+  void saveCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('rememberMe', isChecked!);
+    if(isChecked!){
+      prefs.setString('username', username.text);
+      prefs.setString('password', password.text);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +68,7 @@ class _login_screenState extends State<login_screen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Sign in to Foodie',
                     style: TextStyle(
                       fontSize: 32,
@@ -49,14 +77,14 @@ class _login_screenState extends State<login_screen> {
                   ),
                   TextField(
                     controller: username,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'User Name',
                       labelText: 'User Name',
                     ),
                   ),
                   TextField(
                     controller: password,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Password',
                       labelText: 'Password',
                     ),
@@ -78,11 +106,11 @@ class _login_screenState extends State<login_screen> {
                               });
                             },
                           ),
-                          Text('Remember me'),
+                          const Text('Remember me'),
                         ],
                       ),
                       TextButton(
-                          onPressed: () {}, child: Text('Forget Password')),
+                          onPressed: () {}, child: const Text('Forget Password')),
                     ],
                   ),
                   SizedBox(
@@ -96,7 +124,7 @@ class _login_screenState extends State<login_screen> {
                     color: kSecondaryColor,
                     onPressed: () async {
                       if (username.text.isEmpty || password.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text('Please Fill the all the feilds'),
                         ));
                         return;
@@ -107,9 +135,10 @@ class _login_screenState extends State<login_screen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
+                                builder: (context) => const HomeScreen()));
                         setState(() {
                           MyGlobals().log_account = true;
+                          saveCredentials();
                         });
                       } catch (e) {
                         print('Login failed: $e');
@@ -117,7 +146,7 @@ class _login_screenState extends State<login_screen> {
                             SnackBar(content: Text("Login failed: $e")));
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       "Sign in",
                       style: TextStyle(
                           color: Colors.white,
@@ -127,7 +156,7 @@ class _login_screenState extends State<login_screen> {
                   ),                  SizedBox(
                     height: ScrernHeight / 50,
                   ),
-                  Text('Or login with'),
+                  const Text('Or login with'),
                   SizedBox(
                     height: ScrernHeight / 50,
                   ),
@@ -146,7 +175,7 @@ class _login_screenState extends State<login_screen> {
                           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAzFBMVEVHcEz////////+/v77+/vx8fL9/f309fX+/v739/f////09PXOz8/5+vr8/P3////////29vf///////84qlf8wAdGiPX8/PzsUUTqQjQsqFLrSj3S3/w6g/TqPCs0gPQgpUf85+bv9P+63sL62Nb+8ef4ycbw+PJkunkeePP81HXwgGv0jhzc5/3o9efX7N5Fr19Uj/WQy562zPr2trL94KDzoJrzoJv80Gjyl5H94qgyh9v7xzihsSp+wYV1sE5ZtXBmmvUynoWKrvzKDGT6AAAAE3RSTlMAW+TTeBLcHLMt1WsKzfUznkBIxSDAuAAAAUZJREFUKJFtktligkAMRUFZxKVuDMOAggpu1apVu+/t//9TkxBU1PsySQ4hlyGadpTd0fWOrV2R3eqyWhe80j1RpYCc7pmcI2tyaZimQw6bOTMplU9hpKIofJSUmgwtTCYq9EFhqKIJ5lbGdGIRAGhUQLNX6wRLOA2Y8vdpuvfVOJtaOjhdhL56yYrjU8cGFsRSLc4/x+DPfxBiSZN6LMlXUYXzVghBT8/7pPkdxFX28yzEO8HYI8U9dlQudMZx3AeInWWe+SrExxrhCLTre3E+M3P7FXznLn887z53a2PwGbjBLLvUP2jcYUC/FYdOA9d1g22SbN1fbizT9bUxXA+QguB4G2GlfbIFqw1i0GCzKmzDDQ1LZgPQLKHk5rAJpmSj0ykH0jxArW4V79yqF1bMkEckjYvFrTWIy0btApFsx7m68Ff1D4OdMHbngtKsAAAAAElFTkSuQmCC",
                           fit: BoxFit.scaleDown,
                         ),
-                        Text("Google"),
+                        const Text("Google"),
                       ],
                     ),
                   ),
@@ -157,10 +186,10 @@ class _login_screenState extends State<login_screen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Don’t have an account?'),
+                      const Text('Don’t have an account?'),
                       TextButton(
                           onPressed: () {},
-                          child: Text(
+                          child: const Text(
                               'Sign Up now',
                             style: TextStyle(
                               color: kSecondaryColor,

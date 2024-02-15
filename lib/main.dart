@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled3/firebase_options.dart';
+import 'package:untitled3/screens/about/about_screen.dart';
+import 'package:untitled3/screens/login/login_screen.dart';
 import '/screens/home/home_screen.dart';
 
 void main() async{
@@ -25,7 +28,22 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Montserrat',
       ),
-      home: const HomeScreen(),
+      home: FutureBuilder(
+        // Check for the current user during app startup
+        future: FirebaseAuth.instance.authStateChanges().first,
+        builder: (context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+                MyGlobals().log_account = true;
+              return const HomeScreen(); // User is logged in
+            } else {
+              return HomeScreen(); // User is not logged in
+            }
+          } else {
+            return about_screen(); // Loading state
+          }
+        },
+      ),
     );
   }
 }
