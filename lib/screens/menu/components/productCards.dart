@@ -4,8 +4,7 @@ import '/model.dart/product_model.dart';
 
 class menuProducts extends StatefulWidget {
   final Product product;
-
-  const menuProducts({Key? key, required this.product}) : super(key: key);
+  menuProducts({Key? key, required this.product}) : super(key: key);
 
   @override
   State<menuProducts> createState() => _menuProductsState();
@@ -76,13 +75,37 @@ class _menuProductsState extends State<menuProducts> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(widget.product.price),
-                TextButton(onPressed: (){}, child: Text("See Details"))
+                TextButton(onPressed: (){_showDetailsDialog(context, widget.product.title);}, child: Text("See Details"))
               ],
             ),
-            SizedBox(height: height/25,)
+            Container(),
+
+            // SizedBox(height: height/25,)
           ],
         ),
       ),
     );
   }
+  void _showDetailsDialog(BuildContext context, String productName) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('$productName'),
+          content: Text(widget.product.details),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
+
+
