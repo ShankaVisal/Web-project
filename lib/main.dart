@@ -5,6 +5,7 @@ import 'package:untitled3/firebase_options.dart';
 import 'package:untitled3/screens/about/about_screen.dart';
 import 'package:untitled3/screens/login/login_screen.dart';
 import '/screens/home/home_screen.dart';
+import 'MyGlobals.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

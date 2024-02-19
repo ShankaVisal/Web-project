@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled3/screens/home/home_screen.dart';
+import 'package:untitled3/screens/login/signup_screen.dart';
 
+import '../../MyGlobals.dart';
 import '../../constants.dart';
 
 class login_screen extends StatefulWidget {
@@ -144,6 +146,7 @@ class _login_screenState extends State<login_screen> {
                         print('Login failed: $e');
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Login failed: $e")));
+                        MyGlobals().total_amount = 0;
                       }
                     },
                     child: const Text(
@@ -188,7 +191,9 @@ class _login_screenState extends State<login_screen> {
                     children: [
                       const Text('Don’t have an account?'),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>signUpPage()));
+                          },
                           child: const Text(
                               'Sign Up now',
                             style: TextStyle(
@@ -208,19 +213,6 @@ class _login_screenState extends State<login_screen> {
       ),
     );
   }
-}
-class MyGlobals {
-  // Declare your public variable here
-  bool log_account = false;
-
-  // Singleton pattern
-  static final MyGlobals _singleton = MyGlobals._internal();
-
-  factory MyGlobals() {
-    return _singleton;
-  }
-
-  MyGlobals._internal();
 }
 
 

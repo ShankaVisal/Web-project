@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:untitled3/screens/cart/cart_screen.dart';
+import 'package:untitled3/screens/cart/components/cart_items.dart';
 import '/model.dart/responsive.dart';
 
 import '../../../constants.dart';
@@ -81,7 +83,9 @@ class Header extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: IconButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> cartScreen()));
+            },
             icon: Icon(Icons.shopping_bag_outlined),
             color: Colors.white,
             iconSize: 22,

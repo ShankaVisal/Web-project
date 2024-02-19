@@ -5,6 +5,7 @@ import 'package:untitled3/screens/about/about_screen.dart';
 import 'package:untitled3/screens/home/home_screen.dart';
 import 'package:untitled3/screens/login/login_screen.dart';
 
+import '../../../MyGlobals.dart';
 import '../../../constants.dart';
 
 class HeaderWebMenu extends StatefulWidget {
@@ -22,9 +23,9 @@ class _HeaderWebMenuState extends State<HeaderWebMenu> {
     bool currentAccountState = MyGlobals().log_account;
     String account_log = '';
     if (currentAccountState == false) {
-      account_log = 'Login';
+      account_log = 'Sign In & Sign Up';
     } else {
-      account_log = 'Log out';
+      account_log = 'Sign Out';
     }
     Future<void> _signOut() async {
       await FirebaseAuth.instance.signOut();
@@ -102,9 +103,9 @@ class MobFooterMenu extends StatelessWidget {
     bool currentAccountState = MyGlobals().log_account;
     String account_log = '';
     if (currentAccountState == false) {
-      account_log = 'Login';
+      account_log = 'Sign In & Sign Out';
     } else {
-      account_log = 'Log out';
+      account_log = 'Sign out';
     }
     Future<void> _signOut() async {
       await FirebaseAuth.instance.signOut();
@@ -207,9 +208,9 @@ class _MobMenuState extends State<MobMenu> {
     bool currentAccountState = MyGlobals().log_account;
     String account_log = '';
     if (currentAccountState == false) {
-      account_log = 'Login';
+      account_log = 'Sign In & Sign Up';
     } else {
-      account_log = 'Log out';
+      account_log = 'Sign Out';
     }
     Future<void> _signOut() async {
       await FirebaseAuth.instance.signOut();

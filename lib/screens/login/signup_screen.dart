@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../MyGlobals.dart';
+import '../../constants.dart';
 import '../home/home_screen.dart';
-import '../login/login_screen.dart';
-
+import 'login_screen.dart';
 
 class signUpPage extends StatefulWidget {
   const signUpPage({super.key});
@@ -21,74 +22,79 @@ class _signUpPageState extends State<signUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
-          child: SingleChildScrollView(
-            child: Center(
+    double ScrernHeight = MediaQuery.of(context).size.height;
+    double ScrernWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body: Row(
+        children: [
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(
+              'assets/images/login.png',
+              fit: BoxFit.contain,
+              width: ScrernWidth / 2,
+            ),
+          )),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: ScrernWidth / 15, right: ScrernWidth / 15),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    "SignUp",
-                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 50,
+                    'Sign Up to Foodie',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   TextField(
                     controller: _user,
-                    decoration: InputDecoration(
-                      labelText: 'Username',
-                      filled: true,
-                      fillColor: const Color.fromARGB(255, 114, 114, 114),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide.none),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter User Name',
+                      labelText: 'Enter User Name',
                     ),
                   ),
-                  const SizedBox(height: 16.0),
                   TextField(
                     controller: _email,
-                    decoration: InputDecoration(
-                      labelText: 'User Email',
-                      filled: true,
-                      fillColor: const Color.fromARGB(255, 114, 114, 114),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide.none),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter Email',
+                      labelText: 'Enter Email',
                     ),
                   ),
-                  const SizedBox(height: 16.0),
                   TextField(
-                    obscureText: true,
                     controller: _pwd,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      filled: true,
-                      fillColor: const Color.fromARGB(255, 114, 114, 114),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide.none),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter Password',
+                      labelText: 'Enter Password',
                     ),
                   ),
-                  const SizedBox(height: 16.0),
                   TextField(
-                    obscureText: true,
                     controller: _rePwd,
-                    decoration: InputDecoration(
-                      labelText: 'Re Enter Password',
-                      filled: true,
-                      fillColor: const Color.fromARGB(255, 114, 114, 114),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide.none),
+                    decoration: const InputDecoration(
+                      hintText: 'Re enter Password',
+                      labelText: 'Re enter Password',
                     ),
                   ),
-                  const SizedBox(height: 50.0),
-                  FloatingActionButton(
-                    child: Text('Sign Up'),
+                  SizedBox(
+                    height: ScrernHeight / 25,
+                  ),
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    minWidth: ScrernWidth,
+                    height: 55,
+                    color: kSecondaryColor,
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
                     onPressed: () async {
                       if (_email.text.isEmpty ||
                           _pwd.text.isEmpty ||
@@ -119,6 +125,18 @@ class _signUpPageState extends State<signUpPage> {
                           email: _email.text,
                           password: _pwd.text,
                         );
+                        String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+                        DocumentReference cartRef = FirebaseFirestore.instance.collection('Shopping Cart').doc(uid);
+
+                        await cartRef.set({
+                          'items': FieldValue.arrayUnion([{
+                            'name':'',
+                            'price':0,
+                            'total':0,
+                          }
+                          ])
+                        });
                         // Navigate to the homePage if sign-up is successful
                         Navigator.push(
                             context,
@@ -126,6 +144,7 @@ class _signUpPageState extends State<signUpPage> {
                                 builder: (context) => HomeScreen()));
                         setState(() {
                           MyGlobals().log_account = true;
+                          MyGlobals().total_amount = 0;
                         });
                       } catch (e) {
                         // Handle the exception/error here
@@ -144,8 +163,8 @@ class _signUpPageState extends State<signUpPage> {
                 ],
               ),
             ),
-          ),
-        ),
+          )
+        ],
       ),
     );
   }
