@@ -1,73 +1,77 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled3/MyGlobals.dart';
 
-class totalPrice extends StatefulWidget {
-  totalPrice({Key? key}) : super(key: key);
-
-  @override
-  State<totalPrice> createState() => _totalPriceState();
-}
-
-class _totalPriceState extends State<totalPrice> {
-  int total = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchTotalAmount();
-  }
-
-  Future<void> fetchTotalAmount() async {
-    try {
-      String? uid = FirebaseAuth.instance.currentUser?.uid;
-      if (uid != null) {
-        DocumentSnapshot cartSnapshot = await FirebaseFirestore.instance
-            .collection('Shopping Cart')
-            .doc(uid)
-            .get();
-        List<dynamic> items = cartSnapshot.get('items');
-        if (items.isNotEmpty) {
-          setState(() {
-            total = items[0]['total'];
-          });
-        } else {
-          // Handle case where items array is empty
-        }
-      } else {
-        // Handle case where uid is null
-      }
-    } catch (error) {
-      // Handle error
-    }
-  }
-
+class totalPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    return SizedBox(
-      height: height / 15,
-      width: width < 900 ? width : width / 2,
-      child: Center(
-        child: Padding(
-          padding: EdgeInsets.only(right: 25, left: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Total",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid != null) {
+      return StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('Shopping Cart')
+            .doc(uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator(); // Loading indicator while fetching data
+          }
+
+          if (!snapshot.hasData) {
+            return Text('No data available'); // Handle case where data is not available
+          }
+
+          var cartSnapshot = snapshot.data!;
+          List<dynamic> items = cartSnapshot.get('items');
+          int total = items.isNotEmpty ? items[0]['total'] : 0;
+          int numberOfProducts = items.isNotEmpty ? items[0]['no_of_products'] : 0;
+
+          return total > 0
+              ? SizedBox(
+            height: MediaQuery.of(context).size.width < 900 ? 75 : 100,
+            width: MediaQuery.of(context).size.width < 900 ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width / 2,
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.only(right: 25, left: 15),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Number of Products",
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
+                        ),
+                        Text(
+                          numberOfProducts.toString(),
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Total",
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
+                        ),
+                        Text(
+                          'Rs. $total.00',
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                total.toString(),
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          )
+              : Container();
+        },
+      );
+    } else {
+      return Container(); // Handle case where uid is null
+    }
   }
 }

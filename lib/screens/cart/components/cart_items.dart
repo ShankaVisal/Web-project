@@ -12,7 +12,7 @@ class cartItems extends StatefulWidget {
 }
 
 class _cartItemsState extends State<cartItems> {
-  late List<dynamic> currentItems= [];
+  late List<dynamic> currentItems = [];
   int total = 0;
 
   @override
@@ -24,7 +24,7 @@ class _cartItemsState extends State<cartItems> {
   Future<void> fetchCartItems() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     DocumentReference cartRef =
-    FirebaseFirestore.instance.collection('Shopping Cart').doc(uid);
+        FirebaseFirestore.instance.collection('Shopping Cart').doc(uid);
     DocumentSnapshot cartSnapshot = await cartRef.get();
     setState(() {
       currentItems = cartSnapshot.get('items');
@@ -32,41 +32,34 @@ class _cartItemsState extends State<cartItems> {
     calTotal();
   }
 
-  void calTotal(){
-    for(var item in currentItems){
+  Future<void> removeItem(int index) async {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    DocumentReference cartRef =
+        FirebaseFirestore.instance.collection('Shopping Cart').doc(uid);
+
+    List<dynamic> updatedItems = List.from(currentItems);
+    int removedPrice = currentItems[index + 1]['price'];
+    currentItems[0]['total'] -= removedPrice;
+    currentItems[0]['no_of_products'] -= 1;
+    updatedItems.removeAt(index + 1); // Remove the item at the given index
+
+    await cartRef.update(
+        {'items': updatedItems}); // Update Firestore with the updated items
+    setState(() {
+      currentItems =
+          updatedItems; // Update the local state with the updated items
+    });
+  }
+
+  void calTotal() {
+    for (var item in currentItems) {
       total += int.parse(item['price'].toString());
     }
     setState(() {
       print(total);
-      MyGlobals().total_amount = total;
-      print(MyGlobals().total_amount);
     });
     // updateTotalPrice(total);
   }
-
-  // Future<void> updateTotalPrice(int totalPrice) async {
-  //   try {
-  //     String? uid = FirebaseAuth.instance.currentUser?.uid;
-  //
-  //     DocumentReference cartRef = await FirebaseFirestore.instance.collection('Shopping Cart').doc(uid);
-  //
-  //     // Retrieve the current items array
-  //     DocumentSnapshot cartSnapshot = await cartRef.get();
-  //     List<dynamic> items = cartSnapshot.get('items');
-  //
-  //     // Modify the first element of the array (assuming it exists)
-  //     if (items.isNotEmpty) {
-  //       items[0]['total'] = total; // Update the total
-  //
-  //       // Update the document with the modified items array
-  //       await cartRef.update({'items': items});
-  //     } else {
-  //       // Handle case where items array is empty
-  //     }
-  //   } catch (error) {
-  //     // Handle error
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -74,29 +67,76 @@ class _cartItemsState extends State<cartItems> {
     double width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: SizedBox(
-        height: height/10*5,
-        width: width<900 ? width : width/2,
-        child:  Center(
-            child: currentItems.isNotEmpty
-                ? ListView.builder(
-              itemCount: currentItems.length-1,
-              itemBuilder: (context, index) {
-                final adjustedIndex = index + 1;
-                return ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(currentItems[adjustedIndex]['name'].toString()),
-                      Text('Rs. '+currentItems[adjustedIndex]['price'].toString()+'.00')
-                    ],
-                  ),
-                  // Other item UI goes here
-                );
-              },
-            )
-                : Center(child: Text('No Any products yet')), // Show loading indicator while fetching data
-          ),
-
+        height: width< 900 ? height/3 :height/3*2,
+        width: width < 900 ? width : width / 2,
+        child: currentItems.isNotEmpty
+            ? ListView.builder(
+                itemCount: currentItems.length - 1,
+                itemBuilder: (context, index) {
+                  final adjustedIndex = index + 1;
+                  return ListTile(
+                    title: SingleChildScrollView(
+                      child: SizedBox(
+                        height: 150,
+                        width: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  children: [
+                                    SizedBox(
+                                      height: 100,
+                                      width: 150,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(15),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(15),
+                                          child: Image.asset(
+                                            currentItems[adjustedIndex]['image'].toString(),
+                                            fit: BoxFit.cover, // Adjust the image fit as needed
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(' '+currentItems[adjustedIndex]['name'].toString()),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('Rs. ' +currentItems[adjustedIndex]['price'].toString() +'.00'),
+                                    IconButton(
+                                      icon: Icon(Icons.remove_circle_outline),
+                                      onPressed: () {
+                                        removeItem(index); // Call removeItem function with the index of the item to remove
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    // Other item UI goes here
+                  );
+                },
+              )
+            : Center(
+                child: Text('No Any products yet')),
       ),
     );
   }

@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled3/screens/menu/menu.dart';
 import 'package:untitled3/screens/about/about_screen.dart';
+import 'package:untitled3/screens/menu/menu.dart';
+import 'package:untitled3/screens/about/components/about_body.dart';
 import 'package:untitled3/screens/home/home_screen.dart';
 import 'package:untitled3/screens/login/login_screen.dart';
 
@@ -84,7 +85,7 @@ class _HeaderWebMenuState extends State<HeaderWebMenu> {
         HeaderMenu(
           press: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => about_screen()));
+                MaterialPageRoute(builder: (context) => aboutScreen()));
           },
           title: "About",
         ),
@@ -164,7 +165,7 @@ class MobFooterMenu extends StatelessWidget {
         HeaderMenu(
           press: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => about_screen()));
+                MaterialPageRoute(builder: (context) => aboutScreen()));
           },
           title: "About",
         ),
@@ -273,7 +274,7 @@ class _MobMenuState extends State<MobMenu> {
             HeaderMenu(
               press: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => about_screen()));
+                    MaterialPageRoute(builder: (context) => aboutScreen()));
               },
               title: "About",
             ),

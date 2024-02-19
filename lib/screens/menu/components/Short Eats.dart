@@ -135,6 +135,7 @@ class _shortEatFoodsState extends State<shortEatFoods> {
                     currentItems.add({
                       'name': productDetails['title'],
                       'price': productDetails['price'],
+                      'image': productDetails['image'],
                     });
 
                     // Update the Firestore document with the updated list of items
@@ -151,6 +152,7 @@ class _shortEatFoodsState extends State<shortEatFoods> {
                       // Modify the first element of the array (assuming it exists)
                       if (items.isNotEmpty) {
                         items[0]['total'] += productDetails['price']; // Update the total
+                        items[0]['no_of_products'] += 1; // update number of products
 
                         // Update the document with the modified items array
                         await cartRef.update({'items': items});

@@ -134,6 +134,7 @@ class _signUpPageState extends State<signUpPage> {
                             'name':'',
                             'price':0,
                             'total':0,
+                            'no_of_products':0,
                           }
                           ])
                         });

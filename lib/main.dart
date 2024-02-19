@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled3/firebase_options.dart';
-import 'package:untitled3/screens/about/about_screen.dart';
+import 'package:untitled3/screens/about/components/about_body.dart';
 import 'package:untitled3/screens/login/login_screen.dart';
 import '/screens/home/home_screen.dart';
 import 'MyGlobals.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
               return HomeScreen(); // User is not logged in
             }
           } else {
-            return about_screen(); // Loading state
+            return aboutBody(); // Loading state
           }
         },
       ),

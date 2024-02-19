@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled3/MyGlobals.dart';
+import 'package:untitled3/screens/cart/components/total_price.dart';
 
-class cartItemHeader extends StatefulWidget {
-  const cartItemHeader({super.key});
+class margin extends StatefulWidget {
+  margin({super.key});
 
   @override
-  State<cartItemHeader> createState() => _cartItemHeaderState();
+  State<margin> createState() => _marginState();
 }
 
-class _cartItemHeaderState extends State<cartItemHeader> {
+class _marginState extends State<margin> {
   int total = 0;
 
   @override
@@ -47,29 +49,11 @@ class _cartItemHeaderState extends State<cartItemHeader> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return total > 0
-        ? SizedBox(
-            height: height / 15,
+        ? Container(
+            height: 1,
             width: width < 900 ? width : width / 2,
-            child: const Center(
-              child: Padding(
-                padding: EdgeInsets.only(right: 25, left: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Products",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
-                    ),
-                    Text(
-                      "Price",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            color: Colors.grey, // Set the color of the line
+            margin: EdgeInsets.symmetric(vertical: 10), // Set margin if needed
           )
         : Container();
   }
