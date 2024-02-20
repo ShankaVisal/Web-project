@@ -49,12 +49,15 @@ class _marginState extends State<margin> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return total > 0
-        ? Container(
-            height: 1,
-            width: width < 900 ? width : width / 2,
-            color: Colors.grey, // Set the color of the line
-            margin: EdgeInsets.symmetric(vertical: 10), // Set margin if needed
-          )
+        ? Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Container(
+              height: 1,
+              width: width < 900 ? width : width / 2,
+              color: Colors.grey, // Set the color of the line
+              margin: EdgeInsets.symmetric(vertical: 10), // Set margin if needed
+            ),
+        )
         : Container();
   }
 }

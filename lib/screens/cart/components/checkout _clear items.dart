@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants.dart';
+
 class checkoutOrRemoveProducts extends StatefulWidget {
   const checkoutOrRemoveProducts({super.key});
 
@@ -58,18 +60,19 @@ class _checkoutOrRemoveProductsState extends State<checkoutOrRemoveProducts> {
       child: Center(
         child: Padding(
           padding: EdgeInsets.only(right: 25, left: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              OutlinedButton(
-                  onPressed: (){},
-                  child: Text('CheckOut')
-              ),
-              OutlinedButton(
-                  onPressed: (){},
-                  child: Text('Clear Cart')
-              ),
-            ],
+          child: MaterialButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+            minWidth: width < 900 ? width/1.1 : width / 3.2,
+            height: 60,
+            color: kSecondaryColor,
+            onPressed: () {},
+            child: Text(
+              "CheckOut",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600),
+            ),
           ),
         ),
       ),

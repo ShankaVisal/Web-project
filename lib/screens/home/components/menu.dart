@@ -5,9 +5,10 @@ import 'package:untitled3/screens/menu/menu.dart';
 import 'package:untitled3/screens/about/components/about_body.dart';
 import 'package:untitled3/screens/home/home_screen.dart';
 import 'package:untitled3/screens/login/login_screen.dart';
-
 import '../../../MyGlobals.dart';
 import '../../../constants.dart';
+import '../../whats_new/whats_new_screen.dart';
+
 
 class HeaderWebMenu extends StatefulWidget {
   const HeaderWebMenu({
@@ -24,7 +25,7 @@ class _HeaderWebMenuState extends State<HeaderWebMenu> {
     bool currentAccountState = MyGlobals().log_account;
     String account_log = '';
     if (currentAccountState == false) {
-      account_log = 'Sign In & Sign Up';
+      account_log = 'Sign In     Sign Up';
     } else {
       account_log = 'Sign Out';
     }
@@ -56,8 +57,10 @@ class _HeaderWebMenuState extends State<HeaderWebMenu> {
           width: kPadding,
         ),
         HeaderMenu(
-          press: () {},
-          title: "Offers",
+          press: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> whatsNewScreen()));
+          },
+          title: "What's New",
         ),
         SizedBox(
           width: kPadding,
@@ -104,7 +107,7 @@ class MobFooterMenu extends StatelessWidget {
     bool currentAccountState = MyGlobals().log_account;
     String account_log = '';
     if (currentAccountState == false) {
-      account_log = 'Sign In & Sign Out';
+      account_log = 'Sign In     Sign Out';
     } else {
       account_log = 'Sign out';
     }
@@ -136,8 +139,10 @@ class MobFooterMenu extends StatelessWidget {
           width: kPadding,
         ),
         HeaderMenu(
-          press: () {},
-          title: "Offers",
+          press: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> whatsNewScreen()));
+          },
+          title: "What's New",
         ),
         SizedBox(
           width: kPadding,
@@ -209,7 +214,7 @@ class _MobMenuState extends State<MobMenu> {
     bool currentAccountState = MyGlobals().log_account;
     String account_log = '';
     if (currentAccountState == false) {
-      account_log = 'Sign In & Sign Up';
+      account_log = 'Sign In\nSign Up';
     } else {
       account_log = 'Sign Out';
     }
@@ -245,8 +250,10 @@ class _MobMenuState extends State<MobMenu> {
               width: kPadding,
             ),
             HeaderMenu(
-              press: () {},
-              title: "Offers",
+              press: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> whatsNewScreen()));
+              },
+              title: "What's New",
             ),
             SizedBox(
               width: kPadding,
