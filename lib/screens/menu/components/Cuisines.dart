@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import '../../../constants.dart';
+
 class cuisinesFoods extends StatefulWidget {
   final String docid;
   cuisinesFoods({required this.docid});
@@ -157,14 +159,51 @@ class _cuisinesFoodsState extends State<cuisinesFoods> {
 
                         // Update the document with the modified items array
                         await cartRef.update({'items': items});
+                        try {
+                          // Show an AlertDialog to indicate that the item has been added to the cart
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                contentPadding: EdgeInsets.zero,
+                                insetPadding: EdgeInsets.zero,
+                                content: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Added to Cart Successfully",
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        icon: Icon(Icons.close, color: kSecondaryColor,),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+
+                        } catch (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(error.toString()))
+                          );
+                        }
                       } else {
-                        // Handle case where items array is empty
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Error is occured"))
+                        );// Handle case where items array is empty
                       }
                     } catch (error) {
                       // Handle error
                     }
                   },
-                  child: Text('Add to Cart'),
+                  child: Text('Add to Cart',style: TextStyle(color: kSecondaryColor),),
                 )
 
                 // SizedBox(height: height/25,)
@@ -190,13 +229,13 @@ class _cuisinesFoodsState extends State<cuisinesFoods> {
             height: width1<1000 ? height1/1.2: height1/2,
             child: AlertDialog(
               title: Text('$productName',style: TextStyle(fontWeight: FontWeight.w600),),
-              content: Text('$productDetails'),
+              content: Text('$productDetails',textAlign: TextAlign.justify,),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close'),
+                  child: Text('Close',style: TextStyle(color: kSecondaryColor),),
                 ),
               ],
             ),
@@ -205,5 +244,4 @@ class _cuisinesFoodsState extends State<cuisinesFoods> {
       },
     );
   }
-
 }

@@ -195,6 +195,9 @@ class _signUpPageState extends State<signUpPage> {
                 )
               ],
             ),
+            SizedBox(
+              height: ScreenHeight / 25,
+            ),
             Footer(),
           ],
         ),

@@ -16,17 +16,17 @@ class ServicesCard extends StatelessWidget {
         Services(
           image: "assets/images/delivery_boy.jpg",
           title: "Fastest Delivery",
-          details : "asdfgh"
+          details : "Enjoy prompt delivery of your food, ensuring your cravings are satisfied quickly and conveniently."
         ),
         Services(
-          image: "assets/images/menu.jpg",
-          title: "So Much to Choose From",
-          details : "asdfgh"
+          image: "assets/images/wide_variety.jpg",
+          title: "Wide Variety of Culinary Delights",
+          details : "Explore a diverse menu of delicious dishes, blending local flavors with global influences."
         ),
         Services(
-          image: "assets/images/offer.jpg",
-          title: "Best Offer in Town",
-          details : "asdfgh"
+          image: "assets/images/online_odering.jpg",
+          title: "Convenient Online Ordering",
+          details : "Order your favorite meals easily online, from browsing to payment, all in one seamless experience."
         ),
       ],
     );
@@ -54,13 +54,14 @@ class Services extends StatelessWidget {
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(2.0),
                     child: Image.asset(
                       image,
-                      height: 80,
-                      width: 80,
+                      height: 100,
+                      width: 100,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -81,9 +82,9 @@ class Services extends StatelessWidget {
               ),
               Text(
                 details,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.justify,
                 style: TextStyle(
-                  color: Colors.black54,
+                  color: Colors.black,
                 ),
               ),
             ],
