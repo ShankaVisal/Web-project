@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:untitled3/screens/menu/menu.dart';
 
 import '../../../constants.dart';
 
@@ -94,12 +95,24 @@ class AboutSection extends StatelessWidget {
           height: 10,
         ),
         Text(
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          "Welcome to Foodie - Your Virtual Culinary Haven in Veyangoda!",
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black54,
+            fontWeight: FontWeight.w600,
+            fontSize: 20
           ),
+        ).animate().fadeIn(duration: 900.ms),
+        SizedBox(
+          height: 5,
         ),
+        Text(
+          "Welcome to Foodie, where culinary creativity meets exceptional taste. We're not just a restaurant; we're your passport to a world of flavors right here in Balangoda. Whether you're craving a hearty Sri Lankan feast, a gourmet burger, or a tantalizing Thai curry, we've got something to satisfy every craving.",
+          textAlign: TextAlign.justify,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ).animate().fadeIn(duration: 900.ms),
         SizedBox(
           height: 20,
         ),
@@ -133,7 +146,9 @@ class AboutSection extends StatelessWidget {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                 height: 60,
                 color: kSecondaryColor,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>menu()));
+                },
                 child: Text(
                   "Delivery",
                   style: TextStyle(
@@ -157,7 +172,7 @@ class AboutSection extends StatelessWidget {
               child: MaterialButton(
                 height: 60,
                 onPressed: () {
-                  // Your action when the button is pressed
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>menu()));
                 },
                 // color: Colors.white, // Set to transparent to have an outlined appearance
                 textColor: kSecondaryColor,

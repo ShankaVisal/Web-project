@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled3/screens/menu/menu.dart';
 import '/model.dart/product_model.dart';
 import '/model.dart/responsive.dart';
 import '/screens/home/components/product.dart';
@@ -66,7 +67,9 @@ class ProductCard extends StatelessWidget {
         childAspectRatio: aspectRatio,
       ),
       itemBuilder: (context, index) => Products(
-        press: () {},
+        press: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>menu()));
+        },
         product: products[index],
       ),
       itemCount: products.length,
